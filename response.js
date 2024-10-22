@@ -40,7 +40,7 @@ export default class Response {
         console.log(FgCyan + Bright, "Response header ETag key:", ETag);
         this.res.writeHead(204, { 'ETag': ETag });
         this.end();
-    }2
+    }
     JSON(obj, ETag = "", fromCache = false) {                         // ok status with content
         if (ETag != "")
             this.res.writeHead(200, { 'content-type': 'application/json', 'ETag': ETag });

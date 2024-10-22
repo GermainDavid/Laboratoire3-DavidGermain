@@ -3,6 +3,7 @@ import { v1 as uuidv1 } from "uuid";
 import * as utilities from "../utilities.js";
 import CollectionFilter from "./collectionFilter.js";
 import RepositoryCachesManager from "./repositoryCachesManager.js";
+import CachedRequestsManager from "./cachedRequestsManager.js";
 
 global.jsonFilesPath = "jsonFiles";
 global.repositoryEtags = {};

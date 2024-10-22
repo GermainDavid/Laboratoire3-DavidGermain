@@ -45,16 +45,16 @@ export default class CachedRequestsManager{
     }
     static clear(url) {
         if (url != "") {
-            let indexToDelete;
+            let indexToDelete = [];
             //Pour chaque cache on regarde si l'url correspond, si c'est le cas on la supprimme du tableau
             for (let i = 0; i < requestsCaches.length; i++) {
                 if (requestsCaches[i].url == url){
-                    indexToDelete = i;
+                    indexToDelete.push(i);
                     break;
                 }
             }
             if(indexToDelete != null){
-                utilities.deleteByIndex(repositoryCaches, indexToDelete);
+                utilities.deleteByIndex(requestsCaches, indexToDelete);
                 console.log(FgRed, "Retrait de la cache associé à l'url : " + url);
             }
         }
@@ -75,8 +75,8 @@ export default class CachedRequestsManager{
             if (!HttpContext.path.isAPI) {
                 resolve(false);
             } else{
-                if(HttpContext.req.method == "GET"){
-                    let cache = CachedRequestsManager.find(HttpContext.req.url);
+             if(HttpContext.req.method == "GET"){
+                let cache = CachedRequestsManager.find(HttpContext.req.url);
                     //si on a trouvé une cache
                     if(cache != undefined){
                         console.log(FgBlue, "Extraction de la cache associé à l'url : " + cache.url);
@@ -87,6 +87,13 @@ export default class CachedRequestsManager{
                         resolve(false);
                     }
                 } 
+                else if(HttpContext.req.method == "POST" || HttpContext.req.method == "PUT" || HttpContext.req.method == "DELETE"){
+                    let cache = CachedRequestsManager.find("/api/" + HttpContext.path.model.toLowerCase());
+                    if(cache != undefined){
+                        CachedRequestsManager.clear(cache.url)
+                    }
+                    resolve(false);
+                }
                 else {
                     resolve(false);
                 }
